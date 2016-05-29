@@ -1,11 +1,11 @@
 function Bloodyvipcoinxxx_Trigger(item, caster, event)
 local Vip = ACCT[caster:GetAccountId()].Vip
-	if (Vip >= 1)and(Vip <= 19) then
+	if (Vip >= 1)and(Vip <= ACCT["SERVER"].Vip_max-1) then
 		caster:RemoveItem(63021, 1)
-		UpdateVip(caster, 1)
+		SetVip(caster, Vip + 1)
 		return false;
 	end
-	if(Vip == 20)then
+	if(Vip == ACCT["SERVER"].Vip_max)then
 		caster:SendBroadcastMessage("you cannot levelup your VIP with this stone anymore. You are VIP"..Vip..".")
 		return false;
 	end

@@ -3,10 +3,10 @@
 -- this item will modify votes count and vip level in db then delete itself
 -- from the inventory (when item is clicked on)
 -- with many thanks to rochet2 of ac-web.org for getting it all working
-local itemid = ACCT["SERVER"].Vip_coin
+local itemid = ACCT["SERVER"].Vip_coin;
 
 function Vipcoin_Trigger(event, caster, item)
-local Paccid = caster:GetAccountId()
+local Paccid = caster:GetAccountId();
 
 	caster:SendBroadcastMessage("------------------------------------------------------")
 	caster:SendBroadcastMessage("|cff00cc00You are VIP: "..ACCT[Paccid].Vip.." of "..ACCT["SERVER"].Vip_max..".|r")

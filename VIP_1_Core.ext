@@ -14,15 +14,20 @@ else
 	print("Approved: "..GetLuaEngine().." Detected.\n")
 end
 
-local VIPMAX = 20; -- you can set it to what ever your little heart desires.
+local VIPMAX = 6; -- you can set it to what ever your little heart desires.
 local VOTECOUNT = 125; -- how many votes required to level-up
 local VIPCOIN = 63020;
 local VIPSTONE = 63021;
 local MAGICGOLD = 44209;
 local VIPTPBONUS = 14; -- how many extra talentpoints for each level of vip.
 local COMMANDS = "vcommands"; -- command used to list vip commands
-ACCT = {}
+local ItemRequireVIP = true;
+
+VIPItems = {};
+ACCT = {};
+
 print("VIP Table Allocated.")
+
 ACCT["SERVER"] = {
 	Vip_max = VIPMAX,
 	Vote_count = VOTECOUNT,
@@ -30,16 +35,21 @@ ACCT["SERVER"] = {
 	Vip_stone = VIPSTONE,
 	Mg = MAGICGOLD,
 	Tp_mod = VIPTPBONUS,
-	Commands = COMMANDS
+	Commands = COMMANDS,
+	ItemRequireVIP = ItemRequireVIP
 		};
-print("CORE settings loaded.")
+		
+print("CORE settings loaded.");
 
-local function Player_Vip_Table(event, player)
-local Paccid = player:GetAccountId()
+function Player_Vip_Table(event, player)
 
-	local Q = WorldDBQuery("SELECT username, vip, votes, mg FROM auth.account WHERE `id` = '"..player:GetAccountId().."';");
+local Paccid = player:GetAccountId();
+
+	local Q = WorldDBQuery("SELECT username, vip, votes, mg FROM auth.account WHERE `id` = '"..Paccid.."';");
+
 	ACCT[Paccid] = {
 		chat = 0,
+		id = Paccid,
 		Name = Q:GetString(0),
 		Vip = Q:GetUInt32(1),
 		Votes = Q:GetUInt32(2), -- you can table this independantly if you want to query the data from a different db location
@@ -62,7 +72,7 @@ local Paccid = player:GetAccountId()
 	player:SendBroadcastMessage("/say "..ACCT["SERVER"].Commands.."|cff00cc00 for a list of VIP commands.|r")
 end
 
-RegisterPlayerEvent(3, Player_Vip_Table)
+RegisterPlayerEvent(30, Player_Vip_Table)
 print("Player VIP Table prepared.")
 
 function AddMG(player, change)
