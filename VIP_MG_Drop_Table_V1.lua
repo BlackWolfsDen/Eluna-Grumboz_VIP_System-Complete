@@ -9,7 +9,7 @@
 -- Wrote by FoeReaper
 -- idea by Slp13at420
 local DROPnpc = {
-[1] = {3100, 3225, 49999}, --  drop level 1 npc's
+[1] = {3100, 3225}, --  drop level 1 npc's
 [2] = {}, -- drop level 2 npc's
 [3] = {},
 [4] = {}
