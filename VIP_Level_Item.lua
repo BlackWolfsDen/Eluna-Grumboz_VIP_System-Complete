@@ -8,7 +8,7 @@ local function RemoveLvLItem(event, _, _, player)
 	
 		if(New_Level > Max_Level)then New_Level = Max_Level;end
 	
-	player:SetLevel(player, ACCT[Paccid].Vip+1);
+	player:SetLevel(player, New_Level);
 	player:RemoveItem(LvLItem, 1);
 end
 
