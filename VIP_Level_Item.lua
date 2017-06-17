@@ -8,8 +8,8 @@ local function RemoveLvLItem(event, _, _, player)
 	
 		if(New_Level > Max_Level)then New_Level = Max_Level;end
 	
-	player:SetLevel(New_Level);
 	player:RemoveItem(LvLItem, 1);
+	player:SetLevel(New_Level);
 end
 
 local function PlrLvLItem(event, player, spellID, effindex, item)
