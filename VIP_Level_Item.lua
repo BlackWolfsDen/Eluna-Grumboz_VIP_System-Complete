@@ -12,7 +12,7 @@ local function RemoveLvLItem(event, _, _, player)
 	player:RemoveItem(LvLItem, 1);
 end
 
-local function LvLItem(event, player, spellID, effindex, item)
+local function PlrLvLItem(event, player, spellID, effindex, item)
 
 	if(player:GetLevel() < Max_Level)then
 		player:RegisterEvent(RemoveLvLItem, timer, 1, player)
@@ -23,4 +23,4 @@ local function LvLItem(event, player, spellID, effindex, item)
 	end
 end
 		
-RegisterItemEvent(LvLItem, 2, LvLItem)
+RegisterItemEvent(LvLItem, 2, PlrLvLItem)
