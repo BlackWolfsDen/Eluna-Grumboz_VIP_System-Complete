@@ -107,7 +107,7 @@ function AddMG(player, change)
 	local Paccnm = player:GetAccountName()
 	local newmg = ACCT[Paccid].Mg+change
 	ACCT[Paccid].Mg = newmg
-	AuthDBQuery("UPDATE account SET `mg`='"..newmg.."' WHERE `username`='"..Paccnm.."';");
+	AuthDBExecute("UPDATE account SET `mg`='"..newmg.."' WHERE `username`='"..Paccnm.."';");
 	player:SendBroadcastMessage("Banker|cff00cc00:+"..change.."MG's added.|r")
 	end
 
