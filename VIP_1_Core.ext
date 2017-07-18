@@ -53,7 +53,7 @@ local Paccid = player:GetAccountId();
 
 	if not(ACCT[Paccid])then -- catch 22 for sometimes events double trigger
 	
-		local Q = WorldDBQuery("SELECT username, vip, votes, mg FROM auth.account WHERE `id` = '"..Paccid.."';");
+		local Q = AuthDBQuery("SELECT username, vip, votes, mg FROM account WHERE `id` = '"..Paccid.."';");
 	
 		ACCT[Paccid] = {
 			chat = 0,
@@ -107,7 +107,7 @@ function AddMG(player, change)
 	local Paccnm = player:GetAccountName()
 	local newmg = ACCT[Paccid].Mg+change
 	ACCT[Paccid].Mg = newmg
-	WorldDBQuery("UPDATE auth.account SET `mg`='"..newmg.."' WHERE `username`='"..Paccnm.."';");
+	AuthDBQuery("UPDATE account SET `mg`='"..newmg.."' WHERE `username`='"..Paccnm.."';");
 	player:SendBroadcastMessage("Banker|cff00cc00:+"..change.."MG's added.|r")
 	end
 
@@ -120,7 +120,7 @@ function DeleteMG(player, change)
 	local Paccnm = player:GetAccountName()
 	local newmg = ACCT[Paccid].Mg-change
 	ACCT[Paccid].Mg = newmg
-	WorldDBQuery("UPDATE auth.account SET `mg`='"..newmg.."' WHERE `username`='"..Paccnm.."';");
+	AuthDBExecute("UPDATE account SET `mg`='"..newmg.."' WHERE `username`='"..Paccnm.."';");
 	player:SendBroadcastMessage("Banker|cff00cc00:-"..change.."MG's removed.|r")
 	end
 	
@@ -133,7 +133,7 @@ function SetVip(player, vip)
 	local Paccid = player:GetAccountId()
 	local Paccnm = player:GetAccountName()
 	ACCT[Paccid].Vip = vip
-	WorldDBQuery("UPDATE auth.account SET `vip`='"..vip.."' WHERE `username`='"..Paccnm.."';");
+	AuthDBExecute("UPDATE account SET `vip`='"..vip.."' WHERE `username`='"..Paccnm.."';");
 	player:SendBroadcastMessage("|cff00cc00You\'re VIP is set to "..ACCT[Paccid].Vip..".|r")
 
 end
@@ -146,7 +146,7 @@ function UpdateVotes(player, change)
 	local Paccid = player:GetAccountId()
 	local Paccnm = player:GetAccountName()
 	ACCT[Paccid].Votes = (ACCT[Paccid].Votes+change)
-	WorldDBQuery("UPDATE auth.account SET `votes`=`votes`+'"..change.."' WHERE `username`='"..Paccnm.."';");
+	AuthDBExecute("UPDATE account SET `votes`=`votes`+'"..change.."' WHERE `username`='"..Paccnm.."';");
 	return
 end
 
@@ -178,7 +178,7 @@ local message = "Load Vip Table"
 		for _,v in ipairs(GetPlayersInWorld()) do
 	
 	 		if(v and v:IsInWorld()) then
-				local Q = WorldDBQuery("SELECT id, username, vip, votes, mg FROM auth.account WHERE `id` = '"..v:GetAccountId().."';");
+				local Q = AuthDBQuery("SELECT id, username, vip, votes, mg FROM account WHERE `id` = '"..v:GetAccountId().."';");
 				ACCT[Q:GetUInt32(0)] = {
 					Name = Q:GetString(1),
 					Vip = Q:GetUInt32(2),
