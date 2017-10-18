@@ -1,5 +1,9 @@
 function Bloodyvipcoinxxx_Trigger(item, caster, event)
-local Vip = ACCT[caster:GetAccountId()].Vip
+	
+	if not(ACCT[caster:GetAccountId()]) then Player_Vip_Table(0, caster) end;
+
+local Vip = ACCT[caster:GetAccountId()].Vip;
+
 	if (Vip >= 1)and(Vip <= ACCT["SERVER"].Vip_max-1) then
 		caster:RemoveItem(63021, 1)
 		SetVip(caster, Vip + 1)
