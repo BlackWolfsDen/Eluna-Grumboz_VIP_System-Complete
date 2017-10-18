@@ -8,9 +8,7 @@ local function OnUseOrEquipItem(event, player, item)
 local acct_id = player:GetAccountId();
 local id = item:GetEntry();
 
-	if not(ACCT[acct_id])then
-		Player_Vip_Table(3, player);
-	end
+	if not(ACCT[Paccid]) then Player_Vip_Table(0, player) end;
 
 local Ivip = VIPItems[id].Vip;
 local Pvip = ACCT[acct_id].Vip;
