@@ -1,5 +1,7 @@
 -- use local chat /say
+
 local command = "#buff"
+
 local BUFFIDS = {
 	[1] = {24752, 48074},
 	[2] = {43223, 36880, 467, 48469, 48162}, 
@@ -9,6 +11,8 @@ local STONEBUFFIDS = {23948, 26662} -- add/remove spell IDs for buffs (used in t
      
 function VIPbuff(event, player, message, type, language)
 local Paccid = player:GetAccountId()
+
+	if not(ACCT[Paccid]) then Player_Vip_Table(0, player) end;
 	
 	if(message:lower() == command) then
 		player:SetMaxHealth(ACCT[Paccid].Health + ((ACCT[Paccid].Health * 0.05) * ACCT[Paccid].Vip))
