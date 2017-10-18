@@ -14,7 +14,6 @@ else
 	print("Approved: "..GetLuaEngine().." Detected.\n")
 end
 
--- Config Settings --
 local VIPMAX = 6; -- you can set it to what ever your little heart desires.
 local VOTECOUNT = 125; -- how many votes required to level-up
 local VIPCOIN = 63020;
@@ -22,12 +21,7 @@ local VIPSTONE = 63021;
 local MAGICGOLD = 44209;
 local VIPTPBONUS = 14; -- how many extra talentpoints for each level of vip.
 local COMMANDS = "vcommands"; -- command used to list vip commands
-local ItemRequireVIP = false; -- set to true to allow equiping of some items to require higher VIP ranks
-local VIP_RewardLevel = true; -- set to true to allow VIP rank to increase all toons level by VIPRwdLvL per rank.
-local VIP_RwDLvL_Start_Rank1 = true; -- does VIP rank 1 (default start rank) increase Levels.
-local VIP_RwDLvL = 1; -- set to how many levels to reward per VIP level.
-local VIP_realm_max_level = 80; -- the REALM max level. Found in worldserver.conf
---
+local ItemRequireVIP = true;
 
 VIPItems = {};
 ACCT = {};
@@ -51,51 +45,34 @@ function Player_Vip_Table(event, player)
 
 local Paccid = player:GetAccountId();
 
-	if not(ACCT[Paccid])then -- catch 22 for sometimes events double trigger
-	
-		local Q = AuthDBQuery("SELECT username, vip, votes, mg FROM account WHERE `id` = '"..Paccid.."';");
-	
-		ACCT[Paccid] = {
-			chat = 0,
-			id = Paccid,
-			Name = Q:GetString(0),
-			Vip = Q:GetUInt32(1),
-			Votes = Q:GetUInt32(2), -- you can table this independantly if you want to query the data from a different db location
-			Mg = Q:GetUInt32(3),
-			Health = player:GetMaxHealth()
-						};
-		
-		print(ACCT[Paccid].Name.." :VIP table loaded.")
-		
-		local tmplvl = (math.ceil(ACCT[Paccid].Votes / ACCT["SERVER"].Vote_count));
-		
-			if(ACCT[Paccid].Votes <= ACCT["SERVER"].Vote_count)then
-				tmplvl = 1;
-			end
-				
-			if(ACCT[Paccid].Votes >= (ACCT["SERVER"].Vote_count*ACCT["SERVER"].Vip_max))then
-				tmplvl = ACCT["SERVER"].Vip_max;
-			end
-			
-		SetVip(player,tmplvl); -- update player vip rank.
-	
-		player:SendBroadcastMessage("/say "..ACCT["SERVER"].Commands.."|cff00cc00 for a list of VIP commands.|r")
-		
-		local lvl = VIP_realm_max_level;
-		
-			if(VIP_RewardLevel)then
-			
-				lvl = lvl + ((ACCT[Paccid].Vip - 1) * VIP_RwDLvL);
-					
-					if(VIP_RwDLvL_Start_Rank1)then lvl = lvl + VIP_RwDLvL;end
-			end
+	local Q = WorldDBQuery("SELECT username, vip, votes, mg FROM auth.account WHERE `id` = '"..Paccid.."';");
 
-		player:SetLevel(lvl);
+	ACCT[Paccid] = {
+		chat = 0,
+		id = Paccid,
+		Name = Q:GetString(0),
+		Vip = Q:GetUInt32(1),
+		Votes = Q:GetUInt32(2), -- you can table this independantly if you want to query the data from a different db location
+		Mg = Q:GetUInt32(3),
+		Health = player:GetMaxHealth()
+					};
+	print(ACCT[Paccid].Name.." :VIP table loaded.")
 
-	end
+		if(ACCT[Paccid].Votes < ACCT["SERVER"].Vote_count)then
+			SetVip(player,1)
+			player:SendBroadcastMessage("/say "..ACCT["SERVER"].Commands.."|cff00cc00 for a list of VIP commands.|r")
+			return false;
+			end
+		if(ACCT[Paccid].Votes > (ACCT["SERVER"].Vote_count*ACCT["SERVER"].Vip_max))then
+			SetVip(player,ACCT["SERVER"].Vip_max)
+			player:SendBroadcastMessage("/say "..ACCT["SERVER"].Commands.."|cff00cc00 for a list of VIP commands.|r")
+			return false;
+			end
+	SetVip(player,(math.ceil(ACCT[Paccid].Votes / ACCT["SERVER"].Vote_count)))
+	player:SendBroadcastMessage("/say "..ACCT["SERVER"].Commands.."|cff00cc00 for a list of VIP commands.|r")
 end
 
-RegisterPlayerEvent(3, Player_Vip_Table)
+RegisterPlayerEvent(30, Player_Vip_Table)
 print("Player VIP Table prepared.")
 
 function AddMG(player, change)
@@ -107,7 +84,7 @@ function AddMG(player, change)
 	local Paccnm = player:GetAccountName()
 	local newmg = ACCT[Paccid].Mg+change
 	ACCT[Paccid].Mg = newmg
-	AuthDBExecute("UPDATE account SET `mg`='"..newmg.."' WHERE `username`='"..Paccnm.."';");
+	WorldDBQuery("UPDATE auth.account SET `mg`='"..newmg.."' WHERE `username`='"..Paccnm.."';");
 	player:SendBroadcastMessage("Banker|cff00cc00:+"..change.."MG's added.|r")
 	end
 
@@ -120,7 +97,7 @@ function DeleteMG(player, change)
 	local Paccnm = player:GetAccountName()
 	local newmg = ACCT[Paccid].Mg-change
 	ACCT[Paccid].Mg = newmg
-	AuthDBExecute("UPDATE account SET `mg`='"..newmg.."' WHERE `username`='"..Paccnm.."';");
+	WorldDBQuery("UPDATE auth.account SET `mg`='"..newmg.."' WHERE `username`='"..Paccnm.."';");
 	player:SendBroadcastMessage("Banker|cff00cc00:-"..change.."MG's removed.|r")
 	end
 	
@@ -133,7 +110,7 @@ function SetVip(player, vip)
 	local Paccid = player:GetAccountId()
 	local Paccnm = player:GetAccountName()
 	ACCT[Paccid].Vip = vip
-	AuthDBExecute("UPDATE account SET `vip`='"..vip.."' WHERE `username`='"..Paccnm.."';");
+	WorldDBQuery("UPDATE auth.account SET `vip`='"..vip.."' WHERE `username`='"..Paccnm.."';");
 	player:SendBroadcastMessage("|cff00cc00You\'re VIP is set to "..ACCT[Paccid].Vip..".|r")
 
 end
@@ -146,13 +123,17 @@ function UpdateVotes(player, change)
 	local Paccid = player:GetAccountId()
 	local Paccnm = player:GetAccountName()
 	ACCT[Paccid].Votes = (ACCT[Paccid].Votes+change)
-	AuthDBExecute("UPDATE account SET `votes`=`votes`+'"..change.."' WHERE `username`='"..Paccnm.."';");
+	WorldDBQuery("UPDATE auth.account SET `votes`=`votes`+'"..change.."' WHERE `username`='"..Paccnm.."';");
 	return
 end
 
 function UpdatePvpReward(killer, victim)
 local Kaccid = killer:GetAccountId()
 local Vaccid = victim:GetAccountId()
+
+	if not(ACCT[Kaccid]) then Player_Vip_Table(0, Kaccid) end;
+	if not(ACCT[Vaccid]) then Player_Vip_Table(0, Vaccid) end;
+
 	AddMG(killer, ACCT[Kaccid].Vip+ACCT[Vaccid].Vip)
 	killer:SendBroadcastMessage("|cff00cc00PvP Winner. "..ACCT[Kaccid].Vip.."+"..ACCT[Vaccid].Vip.." MG's transfered.|r")
 	ACCT[Vaccid].Mg = ACCT[Vaccid].Mg-ACCT[Vaccid].Vip
@@ -178,7 +159,7 @@ local message = "Load Vip Table"
 		for _,v in ipairs(GetPlayersInWorld()) do
 	
 	 		if(v and v:IsInWorld()) then
-				local Q = AuthDBQuery("SELECT id, username, vip, votes, mg FROM account WHERE `id` = '"..v:GetAccountId().."';");
+				local Q = WorldDBQuery("SELECT id, username, vip, votes, mg FROM auth.account WHERE `id` = '"..v:GetAccountId().."';");
 				ACCT[Q:GetUInt32(0)] = {
 					Name = Q:GetString(1),
 					Vip = Q:GetUInt32(2),
