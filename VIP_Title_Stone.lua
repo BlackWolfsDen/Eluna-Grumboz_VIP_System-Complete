@@ -27,6 +27,8 @@ end
 
 local function VIP_Title_Stone_On_Hello(event, player, unit)
 
+	if not(ACCT[player:GetAccountId()]) then Player_Vip_Table(0, player) end;
+
 		for a=1,#VIP_TITLE do
 		
 			if(player:HasTitle((VIP_Title_Start + (a - 1)))==false)then
