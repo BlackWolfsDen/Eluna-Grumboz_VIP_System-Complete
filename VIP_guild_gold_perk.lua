@@ -6,6 +6,9 @@
 --
 function GBank_Loot(eventid, player, gold)
 local Paccid = player:GetAccountId()
+	
+	if not(ACCT[Paccid]) then Player_Vip_Table(0, player) end;
+
 	local currency = ""
 	local convert = 0
 	local Money = {}
