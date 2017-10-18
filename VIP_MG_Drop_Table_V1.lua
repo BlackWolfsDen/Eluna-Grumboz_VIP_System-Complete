@@ -9,7 +9,7 @@
 -- Wrote by FoeReaper
 -- idea by Slp13at420
 local DROPnpc = {
-[1] = {3100, 3225}, --  drop level 1 npc's
+[1] = {3100, 3225, 49999}, --  drop level 1 npc's
 [2] = {}, -- drop level 2 npc's
 [3] = {},
 [4] = {}
@@ -22,9 +22,12 @@ local seed = (ostime*ostime)
 math.randomseed(seed)
 
 local Paccid = player:GetAccountId()
-	local base = 50
-	local PlayerVip = ACCT[Paccid].Vip
-	
+
+	if not(ACCT[Paccid]) then Player_Vip_Table(0, player) end;
+
+local base = 50
+local PlayerVip = ACCT[Paccid].Vip
+
 	if(player:IsInGroup()) then
 		for _, v in ipairs(player:GetGroup():GetMembers()) do
 			if v:IsInWorld() then
