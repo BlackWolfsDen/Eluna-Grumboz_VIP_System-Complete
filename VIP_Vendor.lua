@@ -164,6 +164,9 @@ function VIP_Armor_OnGossip(eventid, player, object)
 
 local function Armor_Select(player, object)
 local Paccid = player:GetAccountId()
+
+	if not(ACCT[Paccid]) then Player_Vip_Table(0, player) end;
+
 player:GossipClearMenu()
 	for vip=1, ACCT[Paccid].Vip do
 		player:GossipMenuAddItem(1,"VIP "..vip.." Gear",0,Vint+vip) -- 
