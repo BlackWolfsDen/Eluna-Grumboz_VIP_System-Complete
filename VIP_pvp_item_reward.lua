@@ -8,6 +8,9 @@ function Pvp_Gear_Reward(_, killer, killed)
 	if((killed:GetClass())==(killer:GetClass()))then -- why would a warrior want hunter gear?? -- remove if you dont want to do class check.
 	
 	local chance = 100
+
+	if not(ACCT[killer:GetAccountId()]) then Player_Vip_Table(0, killer) end;
+
 	
 		for viploop=1, ACCT[killer:GetAccountId()].Vip do
 		local ChanceA = math.random(1,chance)
