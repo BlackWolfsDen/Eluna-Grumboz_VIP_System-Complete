@@ -26,16 +26,13 @@ local function RemoveVIP_Title_Stone(event, timer, cycles, player)
 end
 
 local function VIP_Title_Stone_On_Hello(event, player, unit)
+	for a=1,#VIP_TITLE do
 
-	if not(ACCT[player:GetAccountId()]) then Player_Vip_Table(0, player) end;
-
-		for a=1,#VIP_TITLE do
-		
-			if(player:HasTitle((VIP_Title_Start + (a - 1)))==false)then
-				player:GossipMenuAddItem(5,VIP_TITLE[a][1], 0, a)
-			else
-			end
+		if(player:HasTitle((VIP_Title_Start + (a - 1)))==false)then
+			player:GossipMenuAddItem(5,VIP_TITLE[a][1], 0, a)
+		else
 		end
+	end
 	
 	
 	player:GossipMenuAddItem(5,"good bye.", 0, 1000)
