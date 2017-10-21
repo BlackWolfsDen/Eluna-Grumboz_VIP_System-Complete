@@ -3,9 +3,6 @@ local npcid = 60120
 function MGV_Gossip(eventID, player, unit)
 
 local Paccid = player:GetAccountId()
-
-	if not(ACCT[Paccid]) then Player_Vip_Table(0, player) end;
-
 local MagicGolda = ACCT[Paccid].Mg
 local Votes = ACCT[Paccid].Votes
 local Vip = ACCT[Paccid].Vip
