@@ -57,4 +57,4 @@ MG = Magic Gold.
 enjoy everyone :D
 
 I'm trying to make this as Dynamic as possible so the end-user can easily add there own scripts to run with it. 
-or pick and choose what they want to use.
+or pick and choose what they want to use from the provided scripts.
