@@ -5,9 +5,6 @@ function VIPresetTP(event, player, message, type, language)
 
 local Paccid = player:GetAccountId()
 
-	if not(ACCT[Paccid]) then Player_Vip_Table(0, player) end;
-
-
 	if(message == command) then
 		player:ResetTalents()
 		local Tp = (78+(ACCT[Paccid].Vip*ACCT["SERVER"].Tp_mod))
