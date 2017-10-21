@@ -9,27 +9,24 @@ function Pvp_Gear_Reward(_, killer, killed)
 	
 	local chance = 100
 
-	if not(ACCT[killer:GetAccountId()]) then Player_Vip_Table(0, killer) end;
-
-	
 		for viploop=1, ACCT[killer:GetAccountId()].Vip do
-		local ChanceA = math.random(1,chance)
-		  
-			if(ChanceA==chance)then
-				local Iscan = math.random(0, 18) -- choose random equip slot 0 to 18
-				local Itemid = killed:GetEquippedItemBySlot(Iscan) -- attempt to grab guid of equipped item.
-				
-					if(Itemid==nil)then -- catch22 for nil'z
-					return false;
+			local ChanceA = math.random(1,chance)
+
+				if(ChanceA==chance)then
+					local Iscan = math.random(0, 18) -- choose random equip slot 0 to 18
+					local Itemid = killed:GetEquippedItemBySlot(Iscan) -- attempt to grab guid of equipped item.
+
+						if(Itemid==nil)then -- catch22 for nil'z
+						return false;
+						end
+
+					if(killer:AddItem(Itemid:GetEntry(), 1)==true)then
+						killer:SendBroadcastMessage("|cff00cc00Congratulations you looted "..Itemid:GetName().." from "..killed:GetName()..".|r")
+						killed:RemoveItem(Itemid:GetEntry(), 1)
+						killed:SendBroadcastMessage("|cffcc0000"..killer:GetName().." looted your "..Itemid:GetName()..".|r")
 					end
-			
-			   	if(killer:AddItem(Itemid:GetEntry(), 1)==true)then
-				   	killer:SendBroadcastMessage("|cff00cc00Congratulations you looted "..Itemid:GetName().." from "..killed:GetName()..".|r")
-					killed:RemoveItem(Itemid:GetEntry(), 1)
-					killed:SendBroadcastMessage("|cffcc0000"..killer:GetName().." looted your "..Itemid:GetName()..".|r")
+				return false;
 				end
-		   	return false;
-			end
 		end
 	end -- remove if you dont want to do class check
 end
