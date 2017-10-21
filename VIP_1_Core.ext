@@ -141,6 +141,16 @@ local Vaccid = victim:GetAccountId()
 	victim:SendBroadcastMessage("|cffcc0000PvP Loser. -"..ACCT[Vaccid].Vip.." MG's lost.|r")
 	end
 	
+local function GetAllPlayersInWorld()
+
+	for _,v in ipairs(GetPlayersInWorld()) do
+
+		if(v and v:IsInWorld()) then
+			Player_Vip_Table(0, v)
+		end
+	end
+end
+
 function LoadVipTable(event, player, msg)
 
 local message = "Load Vip Table"
@@ -156,22 +166,10 @@ local message = "Load Vip Table"
 			Tp_mod = VIPTPBONUS,
 			Commands = COMMANDS
 				};
-		for _,v in ipairs(GetPlayersInWorld()) do
-	
-	 		if(v and v:IsInWorld()) then
-				local Q = AuthDBQuery("SELECT id, username, vip, votes, mg FROM account WHERE `id` = '"..v:GetAccountId().."';");
-				ACCT[Q:GetUInt32(0)] = {
-					Name = Q:GetString(1),
-					Vip = Q:GetUInt32(2),
-					Votes = Q:GetUInt32(3),
-					Mg = Q:GetUInt32(4)
-							};
-				print(ACCT[v:GetAccountId()].Name.." : VIP Table re-Loaded.")
-				player:SendBroadcastMessage("/say "..ACCT["SERVER"].Commands.."|cff00cc00 for a list of VIP commands.|r")
-			end
-		end
+				
+		GetAllPlayersInWorld()
+		
 	player:SendBroadcastMessage("Grumbo'z VIP Table Re-loaded.")
-	print("VIP Table re-loaded")
 	end
 end
 
