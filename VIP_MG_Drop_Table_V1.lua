@@ -22,9 +22,6 @@ local seed = (ostime*ostime)
 math.randomseed(seed)
 
 local Paccid = player:GetAccountId()
-
-	if not(ACCT[Paccid]) then Player_Vip_Table(0, player) end;
-
 local base = 50
 local PlayerVip = ACCT[Paccid].Vip
 
