@@ -36,7 +36,7 @@ function ChatSystem(event, player, msg, type, lang, channel)
 			
 			local acctid = player:GetAccountId()
 
-				if not(ACCT[Paccid]) then Player_Vip_Table(0, player) end;
+				if not(ACCT[acctid]) then Player_Vip_Table(0, player) end;
 
 				if(msg == off)then
 					ACCT[acctid].chat = 0
