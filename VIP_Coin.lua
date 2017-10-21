@@ -8,8 +8,6 @@ local itemid = ACCT["SERVER"].Vip_coin;
 function Vipcoin_Trigger(event, caster, item)
 local Paccid = caster:GetAccountId();
 
-	if not(ACCT[Paccid]) then Player_Vip_Table(0, player) end;
-
 	caster:SendBroadcastMessage("------------------------------------------------------")
 	caster:SendBroadcastMessage("|cff00cc00You are VIP: "..ACCT[Paccid].Vip.." of "..ACCT["SERVER"].Vip_max..".|r")
 	caster:SendBroadcastMessage("|cff00cc00You have: "..ACCT[Paccid].Mg.." MG's in your bank acct.|r")
