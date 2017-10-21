@@ -2,7 +2,7 @@
 -- added loop so the higher your vip the more tries you do.
 -- added a class check so warrior wont get useless gear from a warlock lol but can be removed easily
 -- to remove the class check just delete lines #28 and then #8
-
+ 
 function Pvp_Gear_Reward(_, killer, killed)
 
 	if((killed:GetClass())==(killer:GetClass()))then -- why would a warrior want hunter gear?? -- remove if you dont want to do class check.
