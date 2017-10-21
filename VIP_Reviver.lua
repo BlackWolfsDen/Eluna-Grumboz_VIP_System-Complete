@@ -5,8 +5,6 @@ function Vipstonerevive(event, player, message, type, language)
 
 local Paccid = player:GetAccountId()
 
-	if not(ACCT[Paccid]) then Player_Vip_Table(0, player) end;
-
 	if (message == command) and (player:HasItem(ACCT["SERVER"].Vip_coin)==true) and (player:GetMapId()~=489) and (player:GetMapId()~=566) and (player:GetMapId()~=607) and (player:GetMapId()~=529) then 
 	 	player:ResurrectPlayer(5*(ACCT[Paccid].Vip))
 	 	player:SendBroadcastMessage("|cffFF0000[SYSTEM] |cff00cc00"..player:GetName().." was successfully revived.|r")
