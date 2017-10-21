@@ -16,8 +16,6 @@ function NpcDieMG(eventid, creature, player)
 local Cid = creature:GetEntry()
 local Paccid = player:GetAccountId()
 
-	if not(ACCT[Paccid]) then Player_Vip_Table(0, player) end;
-
 	if(NPCMG[Cid][2]~=0)then
 		if(player:IsInGroup()) then
 			for _, v in ipairs(player:GetGroup():GetMembers()) do
