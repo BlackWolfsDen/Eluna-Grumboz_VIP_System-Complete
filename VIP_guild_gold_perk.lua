@@ -6,17 +6,14 @@
 --
 function GBank_Loot(eventid, player, gold)
 local Paccid = player:GetAccountId()
-	
-	if not(ACCT[Paccid]) then Player_Vip_Table(0, player) end;
 
-	local currency = ""
-	local convert = 0
-	local Money = {}
-	local Vip = ACCT[Paccid].Vip
-
-	Money.CopperMath = (math.floor(gold))-(math.floor((gold*0.01)/10^0)*100)
-	Money.SilverMath = (math.floor(gold*0.01)/10^0)-(math.floor((gold*0.0001)/10^0)*100)
-	Money.GoldMath = (math.floor(gold*0.0001)/10^0)
+local currency = ""
+local convert = 0
+local Money = {}
+local Vip = ACCT[Paccid].Vip
+Money.CopperMath = (math.floor(gold))-(math.floor((gold*0.01)/10^0)*100)
+Money.SilverMath = (math.floor(gold*0.01)/10^0)-(math.floor((gold*0.0001)/10^0)*100)
+Money.GoldMath = (math.floor(gold*0.0001)/10^0)
 
 	if(gold*0.1 > 0) and (gold*0.1 < 100) then
 		currency = " Copper"
