@@ -24,6 +24,8 @@ local COMMANDS = "vcommands"; -- command used to list vip commands
 local ItemRequireVIP = true;
 
 VIPItems = {};
+
+local function LoadVipTableSettings()
 ACCT = {};
 
 print("VIP Table Allocated.")
@@ -40,6 +42,35 @@ ACCT["SERVER"] = {
 		};
 		
 print("CORE settings loaded.");
+
+end
+
+LoadVipTableSettings()
+
+local function LoadItemVIPLevels()
+
+	local Q = WorldDBQuery("SELECT entry, vip FROM item_template;");
+	
+		if(q)then
+			
+			repeat
+				local id = Q:GetString(0);
+				
+				VIPItems[id] = {
+							Vip	= Q:GetString(1)
+				};
+				if(VIPItems[id].vip > ACCT["SERVER"].Vip_max)then VIPItems[id].vip = ACCT["SERVER"].Vip_max end;
+			
+			until not q:NextRow();
+			
+		end
+	
+print("Item VIP Ranks loaded.");
+
+
+end
+
+LoadItemVIPLevels();
 
 function Player_Vip_Table(event, player)
 
@@ -140,7 +171,7 @@ local Vaccid = victim:GetAccountId()
 	DeleteMG(victim, ACCT[Vaccid].Vip)
 	victim:SendBroadcastMessage("|cffcc0000PvP Loser. -"..ACCT[Vaccid].Vip.." MG's lost.|r")
 	end
-	
+
 local function GetAllPlayersInWorld()
 
 	for _,v in ipairs(GetPlayersInWorld()) do
@@ -151,25 +182,18 @@ local function GetAllPlayersInWorld()
 	end
 end
 
+GetAllPlayersInWorld();
+
 function LoadVipTable(event, player, msg)
 
 local message = "Load Vip Table"
 
 	if(msg==message)then
-		ACCT = {}
-		ACCT["SERVER"] = {
-			Vip_max = VIPMAX,
-			Vote_count = VOTECOUNT,
-			Vip_coin = VIPCOIN,
-			Vip_stone = VIPSTONE,
-			Mg = MAGICGOLD,
-			Tp_mod = VIPTPBONUS,
-			Commands = COMMANDS
-				};
-				
-		GetAllPlayersInWorld()
 		
-	player:SendBroadcastMessage("Grumbo'z VIP Table Re-loaded.")
+		LoadVipTableSettings();
+		GetAllPlayersInWorld();
+		
+		player:SendBroadcastMessage("Grumbo'z VIP Table Re-loaded.")
 	end
 end
 
