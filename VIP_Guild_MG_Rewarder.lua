@@ -5,8 +5,6 @@ local timer = 1800000 -- 30mins
 local function Guild_MG_reward(event, delay, calls, player)
 local Paccid = player:GetAccountId()
 
-	if not(ACCT[Paccid]) then Player_Vip_Table(0, player) end;
-
 	if(player:IsInGuild()==true)then
 		player:SendBroadcastMessage("Jazzmine whispers:|cff00cc00Your Guild Thankz you for playing.|r")
 		AddMG(player, 5*ACCT[Paccid].Vip)
