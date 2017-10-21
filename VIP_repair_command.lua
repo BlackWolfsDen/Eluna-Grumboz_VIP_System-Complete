@@ -3,9 +3,7 @@ function VIP_repair(event, player, message, type, language)
 
   	if(message == "#repair") then
 
-		if not(player:GetAccountId()) then Player_Vip_Table(0, player) end;
-
-        if(player:HasItem(ACCT["SERVER"].Vip_coin)==true) then
+		if(player:HasItem(ACCT["SERVER"].Vip_coin)==true) then
         		player:DurabilityRepairAll(100,100)
         		player:SendBroadcastMessage("|cff00cc00All your items have been repaired!|r")
         else
