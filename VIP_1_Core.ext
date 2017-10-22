@@ -59,7 +59,7 @@ local function LoadItemVIPLevels()
 				VIPItems[id] = {
 							Vip = Q:GetString(1)
 				};
-				if(VIPItems[id].vip > ACCT["SERVER"].Vip_max)then VIPItems[id].vip = ACCT["SERVER"].Vip_max end;
+				if(VIPItems[id].Vip > ACCT["SERVER"].Vip_max)then VIPItems[id].Vip = ACCT["SERVER"].Vip_max end;
 			
 			until not Q:NextRow();
 			
