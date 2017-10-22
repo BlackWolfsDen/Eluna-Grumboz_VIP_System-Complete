@@ -9,6 +9,7 @@ local acct_id = player:GetAccountId();
 local id = item:GetEntry();
 
 	if not(ACCT[Paccid]) then Player_Vip_Table(0, player) end;
+	if not(VIPItems)then LoadItemVIPLevels() end;
 
 local Ivip = VIPItems[id].Vip;
 local Pvip = ACCT[acct_id].Vip;
