@@ -51,17 +51,17 @@ local function LoadItemVIPLevels()
 
 	local Q = WorldDBQuery("SELECT entry, vip FROM item_template;");
 	
-		if(q)then
+		if(Q)then
 			
 			repeat
 				local id = Q:GetString(0);
 				
 				VIPItems[id] = {
-							Vip	= Q:GetString(1)
+							Vip = Q:GetString(1)
 				};
 				if(VIPItems[id].vip > ACCT["SERVER"].Vip_max)then VIPItems[id].vip = ACCT["SERVER"].Vip_max end;
 			
-			until not q:NextRow();
+			until not Q:NextRow();
 			
 		end
 	
