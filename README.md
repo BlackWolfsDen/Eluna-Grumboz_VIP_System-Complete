@@ -50,7 +50,7 @@ VIP System.
 		Uses the world chat channel so just switch to the world channel and chat away without having 
 		to use the annoying "#chat" command over -n- over again.
 
-
+The Guild Gold Perk is NOT supported by Mangos as they dont have the Guild:DepositBankMoney() method.
 
 MG = Magic Gold.
 
