@@ -1,6 +1,15 @@
 -- Items require VIP level to wield/equip/use
 -- By slp13at420	 of EmuDevs.com
 
+local function SendPlayerItem(player, itemid)
+
+local subject = "Item returned.";
+local text = "It appears you tried to use this item with a lower VIP rank. tsk tsk..";
+	
+	SendMail(subject, text, player:GetGUIDLow(), 0, 61, 1000, 0, 0, itemid, 1);
+	
+end
+
 local function OnUseOrEquipItem(event, player, item)
 -- This block of code can be added at the start of a function for a `RegisterItemEvent OnUse or DummyEffect or whatever.
 -- to control the use of the item or items.
@@ -20,6 +29,11 @@ local Pvip = ACCT[acct_id].Vip;
 		
 			player:SendBroadcastMessage("|cffFF0000You dont have the required VIP rank of "..Ivip..". You are VIP"..Pvip..".|r");
 			
+			player:RemoveItem(item, 1);
+			SendPlayerItem(player, id);
+			
+			player:SendBroadcastMessage("|cffFF0000Please check your mail for this item.|r");
+
 			return false;
 			
 		end
