@@ -1,5 +1,5 @@
--- a coin purchased by donating or in game that will upgrade your VIP level. bypass voting for vip level option
--- by Black Wolf of Blackwolfsden.dyndns-free.com
+-- a coin purchased by donating or in game that will display your vip stats.
+-- by Black Wolf of EmuDevs.com
 -- this item will modify votes count and vip level in db then delete itself
 -- from the inventory (when item is clicked on)
 -- with many thanks to rochet2 of ac-web.org for getting it all working
